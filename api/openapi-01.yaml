@@ -1,0 +1,46 @@
+swagger: "2.0"
+info:
+  title: Vulnerable Sample API - Missing Security
+  version: "1.0.0"
+  description: |
+    Intentionally insecure Swagger 2.0 specification for Cortex Cloud
+    OpenAPI IaC scanner testing only. Do not deploy.
+host: api.example.invalid
+basePath: /v1
+schemes:
+  - http
+paths:
+  /users:
+    get:
+      summary: List all users without an authentication requirement
+      produces: []
+      responses:
+        "200":
+          description: User list returned
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+  /users/{userId}:
+    get:
+      summary: Return a user record without an authentication requirement
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: User returned
+          schema:
+            $ref: "#/definitions/User"
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      role:
+        type: string

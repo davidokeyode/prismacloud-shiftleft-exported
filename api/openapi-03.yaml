@@ -1,0 +1,61 @@
+swagger: "2.0"
+info:
+  title: Vulnerable Sample API - OAuth Password Flow and Undefined Scopes
+  version: "1.0.0"
+  description: |
+    Intentionally insecure Swagger 2.0 specification for Cortex Cloud
+    OpenAPI IaC scanner testing only. Do not deploy.
+host: api.example.invalid
+basePath: /v1
+schemes:
+  - https
+securityDefinitions:
+  legacyOAuth:
+    type: oauth2
+    flow: password
+    tokenUrl: https://auth.example.invalid/oauth/token
+    scopes:
+      read: Read records
+security:
+  - legacyOAuth:
+      - write
+paths:
+  /records:
+    post:
+      summary: Create a record using an OAuth password flow
+      security:
+        - legacyOAuth:
+            - admin
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Record"
+      responses:
+        "201":
+          description: Record created
+    patch:
+      summary: Update a record without defining accepted or returned MIME types
+      security:
+        - legacyOAuth:
+            - write
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Record"
+      responses:
+        "200":
+          description: Record updated
+definitions:
+  Record:
+    type: object
+    properties:
+      id:
+        type: string
+      owner:
+        type: string
+      value:
+        type: string

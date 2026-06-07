@@ -1,0 +1,55 @@
+swagger: "2.0"
+info:
+  title: Vulnerable Sample API - Basic Authentication over HTTP
+  version: "1.0.0"
+  description: |
+    Intentionally insecure Swagger 2.0 specification for Cortex Cloud
+    OpenAPI IaC scanner testing only. Do not deploy.
+host: api.example.invalid
+basePath: /v1
+schemes:
+  - http
+securityDefinitions:
+  basicAuth:
+    type: basic
+security:
+  - basicAuth:
+      - admin
+paths:
+  /admin/reports:
+    get:
+      summary: Download an administrative report using basic authentication
+      security:
+        - basicAuth: []
+      responses:
+        "200":
+          description: Administrative report returned
+          schema:
+            type: object
+            properties:
+              reportId:
+                type: string
+              downloadUrl:
+                type: string
+  /admin/users:
+    post:
+      summary: Create an administrative user
+      security:
+        - basicAuth: []
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/AdminUser"
+      responses:
+        "201":
+          description: Administrative user created
+definitions:
+  AdminUser:
+    type: object
+    properties:
+      username:
+        type: string
+      role:
+        type: string
